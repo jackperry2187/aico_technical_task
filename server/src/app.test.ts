@@ -121,7 +121,7 @@ describe('test GET /list', () => {
     expect(res.body).toEqual(expected);
     expect(res.status).toBe(200);
 
-    expect(getDb().devices).toBe(expected);
+    expect(getDb().devices).toStrictEqual(expected);
   });
 });
 

@@ -1,4 +1,5 @@
 import express, { Application, Request, Response} from 'express';
+import { getDb } from './db';
 
 const app: Application = express();
 
@@ -9,8 +10,9 @@ app.post('/register/device/:id', (req: Request, res: Response): void => {
 });
 
 app.get('/list', (req: Request, res: Response): void => {
-  res.json({ message: "Miley, what's good?" });
-  // Implement an endpoint to retrieve a list of all registered devices. This endpoint should return a summary of each device's details.
+  // retrieve a list of all registered devices
+  const db = getDb();
+  res.json(db.devices);
 });
 
 app.get('/device/:id', (req: Request, res: Response): void => {
