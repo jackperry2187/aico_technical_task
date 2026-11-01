@@ -20,10 +20,11 @@ interface Database {
 }
 
 const isTest = process.env.NODE_ENV === 'test';
+const dbPath = path.join(__dirname, 'database.json');
 
 function load(): Database {
   if (isTest) return structuredClone(require('./mock.json')) as Database;
-  return JSON.parse(fs.readFileSync('./database.json', 'utf8')) as Database;
+  return JSON.parse(fs.readFileSync(dbPath, 'utf8')) as Database;
 }
 
 let db = load();
@@ -39,6 +40,6 @@ export function resetDb(): void {
 // Persist the current state of the database to disk, unless running in test mode
 export function persist(): void {
   if (isTest) return;
-  fs.mkdirSync(path.dirname('./database.json'), { recursive: true });
-  fs.writeFileSync('./database.json', JSON.stringify(db, null, 2) + '\n', 'utf8');
+  fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+  fs.writeFileSync(dbPath, JSON.stringify(db, null, 2) + '\n', 'utf8');
 }

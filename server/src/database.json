@@ -1,0 +1,47 @@
+{
+    "devices": [
+        {
+            "id": "1",
+            "type": "light",
+            "value": 100,
+            "history": [
+                {
+                    "type": "registered",
+                    "timestamp": "2024-06-10T12:00:00Z"
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "type": "thermostat",
+            "value": 22,
+            "history": [
+                {
+                    "type": "updated",
+                    "timestamp": "2024-06-10T12:01:00Z",
+                    "before": {
+                        "value": 21
+                    },
+                    "after": {
+                        "value": 22
+                    }
+                },
+                {
+                    "type": "registered",
+                    "timestamp": "2024-06-10T12:00:00Z"
+                }
+            ]
+        },
+        {
+            "id": "3",
+            "type": "sensor",
+            "value": 50,
+            "history": [
+                {
+                    "type": "registered",
+                    "timestamp": "2024-06-10T12:00:00Z"
+                }
+            ]
+        }
+    ]
+}
