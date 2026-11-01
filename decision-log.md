@@ -39,3 +39,4 @@
 10. Bonus features
   - 10.1 Added a refresh button to update the list
   - 10.2 Added a random patch button to call the patch route and then refresh the list, had to add `/device` to the proxy list as well
+  - 10.3 Added a button to delete the last device and then refresh. Also correctly typed the devices object in the frontend, which I should've done earlier.

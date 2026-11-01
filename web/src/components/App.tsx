@@ -1,7 +1,21 @@
 import { useEffect, useState, useCallback } from 'react'
 
+interface HistoryEntry {
+  type: 'registered' | 'updated';
+  timestamp: string;
+  before?: Partial<Device>;
+  after?: Partial<Device>;
+}
+
+export interface Device {
+  id: string;
+  type: string;
+  value: number;
+  history: HistoryEntry[];
+}
+
 function App() {
-  const [devices, setDevices] = useState<Object[]>([])
+  const [devices, setDevices] = useState<Device[]>([])
 
   const getList = useCallback(async () => {
     const list = await fetch('/list');
@@ -15,7 +29,7 @@ function App() {
 
   const randomPatch = useCallback(async () => {
     const randomValue = Math.floor(Math.random() * 100);
-    await fetch('/device/1', {
+    await fetch(`/device/${devices[0].id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -23,7 +37,16 @@ function App() {
       body: JSON.stringify({ value: randomValue })
     });
     getList();
-  }, [getList]);
+  }, [devices, getList]);
+
+  const deleteLast = useCallback(async () => {
+    if (devices.length === 0) return;
+    const lastDeviceId = devices[devices.length - 1].id;
+    await fetch(`/device/${lastDeviceId}`, {
+      method: 'DELETE'
+    });
+    getList();
+  }, [devices, getList]);
 
   return (
     <div className="relative overflow-hidden bg-white">
@@ -38,7 +61,7 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              {devices.map((device: any) => (
+              {devices.map((device: Device) => (
                 <tr key={device.id}>
                   <td>{device.id}</td>
                   <td>{device.type}</td>
@@ -59,6 +82,12 @@ function App() {
             onClick={() => randomPatch()}
           >
           Random Patch
+        </button>
+        <button 
+            className="mt-4 ml-4 px-4 py-2 bg-red-600 text-white rounded"
+            onClick={() => deleteLast()}
+          >
+          Delete Last
         </button>
       </div>
     </div>
