@@ -125,8 +125,26 @@ app.patch('/device/:id', (req: Request, res: Response): void => {
 });
 
 app.delete('/device/:id', (req: Request, res: Response): void => {
-  res.json({ message: "Miley, what's good?" });
-  // Implement an endpoint to delete a specific device from the system. The response should confirm the deletion.
+  // delete a specific device from the system
+  const id = String(req.params.id);
+
+  if (!/^\d+$/.test(id) || Number(id) <= 0) {
+    res.status(400).json({ error: 'device id must be a number' });
+    return;
+  }
+
+  const db = getDb();
+  const index = db.devices.findIndex((device) => device.id === id);
+
+  if (index === -1) {
+    res.status(404).json({ error: `device with id ${id} not found` });
+    return;
+  }
+
+  db.devices.splice(index, 1);
+  persist();
+
+  res.status(200).send();
 });
 
 export default app;

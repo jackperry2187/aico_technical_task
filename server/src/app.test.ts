@@ -349,7 +349,7 @@ describe('test DELETE /device/:id', () => {
       }
     ];
 
-    expect(getDb().devices).toBe(expectedDb);
+    expect(getDb().devices).toStrictEqual(expectedDb);
   });
 
   test('Try to delete device that doesnt exist', async () => {
