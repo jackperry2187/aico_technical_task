@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 function App() {
   const [devices, setDevices] = useState<Object[]>([])
 
-  useEffect(() => {
-    const getList = async () => {
-      const list = await fetch('/list');
-      const data = await list.json();
-      setDevices(data);
-    }
+  const getList = useCallback(async () => {
+    const list = await fetch('/list');
+    const data = await list.json();
+    setDevices(data);
+  }, [setDevices]);
 
+  useEffect(() => {
     getList();
-  }, [setDevices])
+  }, [getList]);
 
   return (
     <div className="relative overflow-hidden bg-white">
@@ -36,6 +36,12 @@ function App() {
             </tbody>
           </table>
         </div>
+        <button 
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+            onClick={() => getList()}
+          >
+          Refresh
+        </button>
       </div>
     </div>
   )
