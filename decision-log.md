@@ -15,3 +15,4 @@
 
 6. Now that the db is implemented, I'll start writing failing tests for the backend routes.
   6.1 Added the /register/device/:id tests
+  6.2 Added the /list test

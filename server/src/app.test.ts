@@ -68,12 +68,64 @@ describe('test /register/device/:id', () => {
   });
 });
 
-describe('Test app.ts', () => {
-  test('List devices route', async () => {
+describe('test /list', () => {
+  test('List devices successfully', async () => {
     const res = await request(app).get('/list');
-    expect(res.body).toEqual({ message: "Miley, what's good?" });
-  });
 
+    const expected = [
+        {
+            "id": "1",
+            "type": "light",
+            "value": 100,
+            "history": [
+                {
+                    "type": "registered",
+                    "timestamp": "2024-06-10T12:00:00Z"
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "type": "thermostat",
+            "value": 22,
+            "history": [
+                {
+                    "type": "updated",
+                    "timestamp": "2024-06-10T12:01:00Z",
+                    "before": {
+                        "value": 21
+                    },
+                    "after": {
+                        "value": 22
+                    }
+                },
+                {
+                    "type": "registered",
+                    "timestamp": "2024-06-10T12:00:00Z"
+                }
+            ]
+        },
+        {
+            "id": "3",
+            "type": "sensor",
+            "value": 50,
+            "history": [
+                {
+                    "type": "registered",
+                    "timestamp": "2024-06-10T12:00:00Z"
+                }
+            ]
+        }
+    ]
+
+    expect(res.body).toEqual(expected);
+    expect(res.status).toBe(200);
+
+    expect(getDb().devices).toContainEqual(expected);
+  });
+});
+
+describe('Test app.ts', () => {
   test('Get device by ID route', async () => {
     const res = await request(app).get('/device/1');
     expect(res.body).toEqual({ message: "Miley, what's good?" });
