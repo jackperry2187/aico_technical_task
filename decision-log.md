@@ -28,3 +28,9 @@
   - 7.4 The implementation of PATCH /device/:id highlighted that I had used `PATCH` instead of `patch` in the tests, which was breaking them, the same was true for some of the DELETE tests so I preemptively updated those too.
   - 7.5 Implementing the PATCH route made me realise some things, notably that I'm not checking for negative numbers and I also want to put a bound on the PATCH value, 0 to 100 makes sense for that. I've also added tests where relevant for this.
   - 7.6 Ran into another `toBe` that was supposed to be a `toStrictEqual` for the DELETE tests. Otherwise good, and all 25 tests are now passing!
+
+8. I tried to test the /list route by going to `http://localhost:5050/list` in the browser (after copying the items from mock.json into db.json) and it didn't work and caused an odd error. I realised I was referencing database.json (which wasn't a file), and needed to be using `__dirname`, so I updated that and the usages of it.
+
+9. The next thing I wanted to implement was getting the list on the frontend. 
+  - 9.1 I found [this](https://vite.dev/config/server-options#server-proxy) in the vite documentation which should allow me to avoid CORS issues
+  - 9.2 From the network tab in chrome I can tell I'm getting the three items I would expect
