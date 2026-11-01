@@ -17,3 +17,4 @@
   6.1 Added the POST /register/device/:id tests
   6.2 Added the GET /list test
   6.3 Added the GET /device/:id tests
+  6.4 Added the PATCH /device/:id tests

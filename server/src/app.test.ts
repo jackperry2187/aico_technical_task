@@ -121,7 +121,7 @@ describe('test GET /list', () => {
     expect(res.body).toEqual(expected);
     expect(res.status).toBe(200);
 
-    expect(getDb().devices).toContainEqual(expected);
+    expect(getDb().devices).toBe(expected);
   });
 });
 
@@ -160,12 +160,78 @@ describe('test GET /device/:id', () => {
   });
 });
 
-describe('Test app.ts', () => {
-  test('Update device by ID route', async () => {
-    const res = await request(app).patch('/device/1');
-    expect(res.body).toEqual({ message: "Miley, what's good?" });
+describe('test PATCH /device/:id', () => {
+  test('Update device value successfully', async () => {
+    const res = await request(app).PATCH('/device/1').send({
+      "value": 50
+    });
+
+    const expected = {
+      "before": {
+        "value": 100,
+      },
+      "after": {
+        "value": 50
+      }
+    }
+
+    expect(res.body).toEqual(expected);
+    expect(res.status).toBe(200);
+
+    const expectedDbObject = {
+      "id": "1",
+      "type": "light",
+      "value": 50,
+      "history": [
+        {
+          "type": 'updated',
+          "timestamp": expect.any(String),
+          "before": {
+            "value": 100,
+          },
+          "after": {
+            "value": 50
+          }
+        },
+        {
+          "type": "registered",
+          "timestamp": "2024-06-10T12:00:00Z"
+        }
+      ]
+    };
+
+    expect(getDb().devices).toContainEqual(expectedDbObject);
   });
 
+  test('Try to update type unsuccessfully', async () => {
+    const res = await request(app).PATCH('/device/1').send({
+      "type": "thermometer"
+    });
+
+    expect(res.body).toEqual({ "error": "can only update value" });
+    expect(res.status).toBe(400);
+  });
+
+  test('Try to update device that doesnt exist', async () => {
+    const res = await request(app).PATCH('/device/4').send({
+      "value": 50
+    });
+
+    expect(res.body).toEqual({ "error": "device with id 4 not found" });
+    expect(res.status).toBe(404);
+  });
+
+  test('Try to update device with wrong id', async () => {
+    const res = await request(app).PATCH('/device/hello').send({
+      "value": 50
+    });
+
+    expect(res.body).toEqual({ "error": "device id must be a number" });
+    expect(res.status).toBe(400);
+  });
+});
+
+describe('Test app.ts', () => {
   test('Delete device by ID route', async () => {
     const res = await request(app).delete('/device/1');
     expect(res.body).toEqual({ message: "Miley, what's good?" });
