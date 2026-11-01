@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from './app';
 import { getDb } from './db';
 
-describe('test /register/device/:id', () => {
+describe('test POST /register/device/:id', () => {
   test('Register device successfully', async () => {
     const res = await request(app).post('/register/device/4').send({
       type: 'light',
@@ -68,7 +68,7 @@ describe('test /register/device/:id', () => {
   });
 });
 
-describe('test /list', () => {
+describe('test GET /list', () => {
   test('List devices successfully', async () => {
     const res = await request(app).get('/list');
 
@@ -125,12 +125,42 @@ describe('test /list', () => {
   });
 });
 
-describe('Test app.ts', () => {
+describe('test GET /device/:id', () => {
   test('Get device by ID route', async () => {
     const res = await request(app).get('/device/1');
-    expect(res.body).toEqual({ message: "Miley, what's good?" });
+
+    const expected = {
+      "id": "1",
+      "type": "light",
+      "value": 100,
+      "history": [
+        {
+          "type": "registered",
+          "timestamp": "2024-06-10T12:00:00Z"
+        }
+      ]
+    };
+
+    expect(res.body).toEqual(expected);
+    expect(res.status).toBe(200);
   });
 
+  test('Get device by ID that doesnt exist', async () => {
+    const res = await request(app).post('/register/device/4');
+
+    expect(res.body).toEqual({ "error": "device with id 4 not found" });
+    expect(res.status).toBe(404);
+  });
+
+  test('Get device by ID that is wrong', async () => {
+    const res = await request(app).post('/register/device/hello');
+
+    expect(res.body).toEqual({ "error": "device id must be a number" });
+    expect(res.status).toBe(400);
+  });
+});
+
+describe('Test app.ts', () => {
   test('Update device by ID route', async () => {
     const res = await request(app).patch('/device/1');
     expect(res.body).toEqual({ message: "Miley, what's good?" });
