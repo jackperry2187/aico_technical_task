@@ -23,3 +23,4 @@
 
 7. Now I'll start on implementing the routes to make the tests pass.
   - 7.1 I started with GET /list since that one's pretty easy, I needed to change toBe to toStrictEqual since I actually wanted equality checking
+  - 7.2 When implementing POST /register/device/:id, I needed a way to check that the input was a number and got a regex from [this](https://stackoverflow.com/questions/9011524/regex-to-check-whether-a-string-contains-only-numbers) post. I also needed to add `app.use(express.json());` in order for the `res.body` to be parsed correctly.

@@ -1,12 +1,53 @@
 import express, { Application, Request, Response} from 'express';
-import { getDb } from './db';
+import { Device, getDb, persist } from './db';
 
 const app: Application = express();
 
+app.use(express.json());
+
 app.post('/register/device/:id', (req: Request, res: Response): void => {
-  res.json({ message: "Miley, what's good?" });
-  // Create an endpoint to register a new IoT device. The API should accept the necessary details to uniquely identify and describe the device.
-  // The response should return the details of the registered device, including a unique identifier.
+  // register a new IoT device
+  const id = String(req.params.id);
+  const { type, value } = req.body;
+
+  if (!/^\d+$/.test(id)) {
+    res.status(400).json({ error: 'id must be a number' });
+    return;
+  }
+
+  if (typeof type !== 'string') {
+    res.status(400).json({ error: 'type must be a string' });
+    return;
+  }
+
+  if (typeof value !== 'number') {
+    res.status(400).json({ error: 'value must be a number' });
+    return;
+  }
+
+  const db = getDb();
+
+  if (db.devices.some((device) => device.id === id)) {
+    res.status(409).json({ error: 'id already exists' });
+    return;
+  }
+
+  const device = {
+    id,
+    type,
+    value,
+    history: [
+      {
+        type: 'registered',
+        timestamp: new Date().toISOString(),
+      },
+    ],
+  } as Device;
+
+  db.devices.push(device);
+  persist();
+
+  res.status(200).json(device);
 });
 
 app.get('/list', (req: Request, res: Response): void => {

@@ -8,7 +8,7 @@ interface HistoryEntry {
   after?: Partial<Device>;
 }
 
-interface Device {
+export interface Device {
   id: string;
   type: string;
   value: number;
