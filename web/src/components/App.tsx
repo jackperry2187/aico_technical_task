@@ -86,6 +86,26 @@ function App() {
               ))}
             </tbody>
           </table>
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Timestamp</th>
+                <th>Before</th>
+                <th>After</th>
+              </tr>
+            </thead>
+            <tbody>
+              {!!devices[0] && devices[0].history.map((historyItem: HistoryEntry) => (
+                <tr>
+                  <td>{historyItem.type}</td>
+                  <td>{historyItem.timestamp}</td>
+                  <td>{historyItem.before?.value}</td>
+                  <td>{historyItem.after?.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
         <button 
             className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
