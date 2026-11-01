@@ -8,7 +8,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/list': 'http://localhost:5050',
-      '/device': 'http://localhost:5050'
+      '/device': 'http://localhost:5050',
+      '/register': 'http://localhost:5050'
     }
   }
 })
