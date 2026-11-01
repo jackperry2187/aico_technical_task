@@ -9,3 +9,6 @@
 
 4. To follow TDD, I'm going to set up testing for the backend routes based on the information in the task.
   - 4.1 The tests are set up and passing, and the routes are created. I want to write failing tests now, but need to come up with a schema of the database first. I'll make a mock of a filled database based on the task requirements.
+
+5. I'm going to set up a mock database based on the requirements that draws on what the mock laid out.
+  - 5.1 I've now created a simple file that handles switching between db.json or mock.json based on if the tests are running or not. The mock file will also reset in between tests.
