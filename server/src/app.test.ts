@@ -166,7 +166,7 @@ describe('test GET /device/:id', () => {
 
 describe('test PATCH /device/:id', () => {
   test('Update device value successfully', async () => {
-    const res = await request(app).PATCH('/device/1').send({
+    const res = await request(app).patch('/device/1').send({
       "value": 50
     });
 
@@ -208,7 +208,7 @@ describe('test PATCH /device/:id', () => {
   });
 
   test('Try to update type unsuccessfully', async () => {
-    const res = await request(app).PATCH('/device/1').send({
+    const res = await request(app).patch('/device/1').send({
       "type": "thermometer"
     });
 
@@ -217,7 +217,7 @@ describe('test PATCH /device/:id', () => {
   });
 
   test('Try to update device that doesnt exist', async () => {
-    const res = await request(app).PATCH('/device/4').send({
+    const res = await request(app).patch('/device/4').send({
       "value": 50
     });
 
@@ -226,7 +226,7 @@ describe('test PATCH /device/:id', () => {
   });
 
   test('Try to update device with wrong id', async () => {
-    const res = await request(app).PATCH('/device/hello').send({
+    const res = await request(app).patch('/device/hello').send({
       "value": 50
     });
 
@@ -270,14 +270,14 @@ describe('test DELETE /device/:id', () => {
   });
 
   test('Try to delete device that doesnt exist', async () => {
-    const res = await request(app).DELETE('/device/4');
+    const res = await request(app).delete('/device/4');
 
     expect(res.body).toEqual({ "error": "device with id 4 not found" });
     expect(res.status).toBe(404);
   });
 
   test('Try to delete device with wrong id', async () => {
-    const res = await request(app).DELETE('/device/hello');
+    const res = await request(app).delete('/device/hello');
 
     expect(res.body).toEqual({ "error": "device id must be a number" });
     expect(res.status).toBe(400);

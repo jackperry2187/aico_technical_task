@@ -77,9 +77,51 @@ app.get('/device/:id', (req: Request, res: Response): void => {
 });
 
 app.patch('/device/:id', (req: Request, res: Response): void => {
-  res.json({ message: "Miley, what's good?" });
-  // Provide an endpoint to update the status or configuration of a specific device. This could be used, for example, to turn a light on or off, adjust a thermostat, etc.
-  // The response should confirm the updated status or configuration.
+  // update the status or configuration of a specific device
+  const id = String(req.params.id);
+
+  if (!/^\d+$/.test(id)) {
+    res.status(400).json({ error: 'device id must be a number' });
+    return;
+  }
+
+  const keys = Object.keys(req.body ?? {});
+
+  if (keys.length !== 1 || keys[0] !== 'value') {
+    res.status(400).json({ error: 'can only update value' });
+    return;
+  }
+
+  const { value } = req.body;
+
+  if (typeof value !== 'number') {
+    res.status(400).json({ error: 'value must be a number' });
+    return;
+  }
+
+  const db = getDb();
+  const device = db.devices.find((device) => device.id === id);
+
+  if (!device) {
+    res.status(404).json({ error: `device with id ${id} not found` });
+    return;
+  }
+
+  const change = {
+    before: { value: device.value },
+    after: { value },
+  };
+
+  device.value = value;
+  device.history.unshift({
+    type: 'updated',
+    timestamp: new Date().toISOString(),
+    ...change,
+  });
+
+  persist();
+
+  res.status(200).json(change);
 });
 
 app.delete('/device/:id', (req: Request, res: Response): void => {
