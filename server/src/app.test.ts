@@ -47,7 +47,27 @@ describe('test POST /register/device/:id', () => {
       value: 100,
     });
 
-    expect(res.body).toEqual({ "error": "id must be a number" });
+    expect(res.body).toEqual({ "error": "id must be a positive number" });
+    expect(res.status).toBe(400);
+  });
+
+  test('Register device with id of zero', async () => {
+    const res = await request(app).post('/register/device/0').send({
+      type: 'light',
+      value: 100,
+    });
+
+    expect(res.body).toEqual({ "error": "id must be a positive number" });
+    expect(res.status).toBe(400);
+  });
+
+  test('Register device with negative id', async () => {
+    const res = await request(app).post('/register/device/-1').send({
+      type: 'light',
+      value: 100,
+    });
+
+    expect(res.body).toEqual({ "error": "id must be a positive number" });
     expect(res.status).toBe(400);
   });
 
@@ -67,7 +87,27 @@ describe('test POST /register/device/:id', () => {
       value: 'hello',
     });
 
-    expect(res.body).toEqual({ "error": "value must be a number" });
+    expect(res.body).toEqual({ "error": "value must be a number between 0 and 100" });
+    expect(res.status).toBe(400);
+  });
+
+  test('Register device with value below range', async () => {
+    const res = await request(app).post('/register/device/4').send({
+      type: 'light',
+      value: -1,
+    });
+
+    expect(res.body).toEqual({ "error": "value must be a number between 0 and 100" });
+    expect(res.status).toBe(400);
+  });
+
+  test('Register device with value above range', async () => {
+    const res = await request(app).post('/register/device/4').send({
+      type: 'light',
+      value: 101,
+    });
+
+    expect(res.body).toEqual({ "error": "value must be a number between 0 and 100" });
     expect(res.status).toBe(400);
   });
 });
@@ -159,7 +199,14 @@ describe('test GET /device/:id', () => {
   test('Get device by ID that is wrong', async () => {
     const res = await request(app).get('/device/hello');
 
-    expect(res.body).toEqual({ "error": "device id must be a number" });
+    expect(res.body).toEqual({ "error": "device id must be a positive number" });
+    expect(res.status).toBe(400);
+  });
+
+  test('Get device by ID that is not positive', async () => {
+    const res = await request(app).get('/device/0');
+
+    expect(res.body).toEqual({ "error": "device id must be a positive number" });
     expect(res.status).toBe(400);
   });
 });
@@ -230,7 +277,43 @@ describe('test PATCH /device/:id', () => {
       "value": 50
     });
 
-    expect(res.body).toEqual({ "error": "device id must be a number" });
+    expect(res.body).toEqual({ "error": "device id must be a positive number" });
+    expect(res.status).toBe(400);
+  });
+
+  test('Try to update device with a non positive id', async () => {
+    const res = await request(app).patch('/device/0').send({
+      "value": 50
+    });
+
+    expect(res.body).toEqual({ "error": "device id must be a positive number" });
+    expect(res.status).toBe(400);
+  });
+
+  test('Try to update value with a non number', async () => {
+    const res = await request(app).patch('/device/1').send({
+      "value": "hello"
+    });
+
+    expect(res.body).toEqual({ "error": "value must be a number between 0 and 100" });
+    expect(res.status).toBe(400);
+  });
+
+  test('Try to update value above range', async () => {
+    const res = await request(app).patch('/device/1').send({
+      "value": 101
+    });
+
+    expect(res.body).toEqual({ "error": "value must be a number between 0 and 100" });
+    expect(res.status).toBe(400);
+  });
+
+  test('Try to update value below range', async () => {
+    const res = await request(app).patch('/device/1').send({
+      "value": -1
+    });
+
+    expect(res.body).toEqual({ "error": "value must be a number between 0 and 100" });
     expect(res.status).toBe(400);
   });
 });

@@ -10,8 +10,8 @@ app.post('/register/device/:id', (req: Request, res: Response): void => {
   const id = String(req.params.id);
   const { type, value } = req.body;
 
-  if (!/^\d+$/.test(id)) {
-    res.status(400).json({ error: 'id must be a number' });
+  if (!/^\d+$/.test(id) || Number(id) <= 0) {
+    res.status(400).json({ error: 'id must be a positive number' });
     return;
   }
 
@@ -20,8 +20,8 @@ app.post('/register/device/:id', (req: Request, res: Response): void => {
     return;
   }
 
-  if (typeof value !== 'number') {
-    res.status(400).json({ error: 'value must be a number' });
+  if (typeof value !== 'number' || value < 0 || value > 100) {
+    res.status(400).json({ error: 'value must be a number between 0 and 100' });
     return;
   }
 
@@ -60,8 +60,8 @@ app.get('/device/:id', (req: Request, res: Response): void => {
   // retrieve the details of a specific device by its unique identifier
   const id = String(req.params.id);
 
-  if (!/^\d+$/.test(id)) {
-    res.status(400).json({ error: 'device id must be a number' });
+  if (!/^\d+$/.test(id) || Number(id) <= 0) {
+    res.status(400).json({ error: 'device id must be a positive number' });
     return;
   }
 
@@ -80,8 +80,8 @@ app.patch('/device/:id', (req: Request, res: Response): void => {
   // update the status or configuration of a specific device
   const id = String(req.params.id);
 
-  if (!/^\d+$/.test(id)) {
-    res.status(400).json({ error: 'device id must be a number' });
+  if (!/^\d+$/.test(id) || Number(id) <= 0) {
+    res.status(400).json({ error: 'device id must be a positive number' });
     return;
   }
 
@@ -94,8 +94,8 @@ app.patch('/device/:id', (req: Request, res: Response): void => {
 
   const { value } = req.body;
 
-  if (typeof value !== 'number') {
-    res.status(400).json({ error: 'value must be a number' });
+  if (typeof value !== 'number' || value < 0 || value > 100) {
+    res.status(400).json({ error: 'value must be a number between 0 and 100' });
     return;
   }
 
