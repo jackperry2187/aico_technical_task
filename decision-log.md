@@ -38,3 +38,4 @@
 
 10. Bonus features
   - 10.1 Added a refresh button to update the list
+  - 10.2 Added a random patch button to call the patch route and then refresh the list, had to add `/device` to the proxy list as well

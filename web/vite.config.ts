@@ -7,7 +7,8 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   server: {
     proxy: {
-      '/list': 'http://localhost:5050'
+      '/list': 'http://localhost:5050',
+      '/device': 'http://localhost:5050'
     }
   }
 })
