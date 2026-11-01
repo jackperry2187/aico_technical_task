@@ -18,3 +18,5 @@
   6.2 Added the GET /list test
   6.3 Added the GET /device/:id tests
   6.4 Added the PATCH /device/:id tests
+  6.5 Added the DELETE /device/:id tests
+  6.6 All 16 tests are now written and failing, as expected.

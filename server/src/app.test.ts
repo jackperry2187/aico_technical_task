@@ -231,9 +231,51 @@ describe('test PATCH /device/:id', () => {
   });
 });
 
-describe('Test app.ts', () => {
-  test('Delete device by ID route', async () => {
-    const res = await request(app).delete('/device/1');
-    expect(res.body).toEqual({ message: "Miley, what's good?" });
+describe('test DELETE /device/:id', () => {
+  test('Delete device successfully', async () => {
+    const res = await request(app).delete('/device/2');
+
+    expect(res.status).toBe(200);
+
+    const expectedDb = [
+      {
+        "id": "1",
+        "type": "light",
+        "value": 100,
+        "history": [
+          {
+            "type": "registered",
+            "timestamp": "2024-06-10T12:00:00Z"
+          }
+        ]
+      },
+      {
+        "id": "3",
+        "type": "sensor",
+        "value": 50,
+        "history": [
+          {
+            "type": "registered",
+            "timestamp": "2024-06-10T12:00:00Z"
+          }
+        ]
+      }
+    ];
+
+    expect(getDb().devices).toBe(expectedDb);
+  });
+
+  test('Try to delete device that doesnt exist', async () => {
+    const res = await request(app).DELETE('/device/4');
+
+    expect(res.body).toEqual({ "error": "device with id 4 not found" });
+    expect(res.status).toBe(404);
+  });
+
+  test('Try to delete device with wrong id', async () => {
+    const res = await request(app).DELETE('/device/hello');
+
+    expect(res.body).toEqual({ "error": "device id must be a number" });
+    expect(res.status).toBe(400);
   });
 });
