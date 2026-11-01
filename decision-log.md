@@ -12,3 +12,6 @@
 
 5. I'm going to set up a mock database based on the requirements that draws on what the mock laid out.
   - 5.1 I've now created a simple file that handles switching between db.json or mock.json based on if the tests are running or not. The mock file will also reset in between tests.
+
+6. Now that the db is implemented, I'll start writing failing tests for the backend routes.
+  6.1 Added the /register/device/:id tests
