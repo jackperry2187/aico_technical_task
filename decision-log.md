@@ -34,3 +34,4 @@
 9. The next thing I wanted to implement was getting the list on the frontend. 
   - 9.1 I found [this](https://vite.dev/config/server-options#server-proxy) in the vite documentation which should allow me to avoid CORS issues
   - 9.2 From the network tab in chrome I can tell I'm getting the three items I would expect
+  - 9.3 I added a table to display the list of devices, which should meet the minimum requirements.
