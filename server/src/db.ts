@@ -22,14 +22,18 @@ interface Database {
 const isTest = process.env.NODE_ENV === 'test';
 
 function load(): Database {
-  if (isTest) return require('./mock.json') as Database;
+  if (isTest) return structuredClone(require('./mock.json')) as Database;
   return JSON.parse(fs.readFileSync('./database.json', 'utf8')) as Database;
 }
 
-const db = load();
+let db = load();
 
 export function getDb(): Database {
   return db;
+}
+
+export function resetDb(): void {
+    db = load();
 }
 
 // Persist the current state of the database to disk, unless running in test mode

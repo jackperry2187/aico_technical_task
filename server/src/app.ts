@@ -57,8 +57,23 @@ app.get('/list', (req: Request, res: Response): void => {
 });
 
 app.get('/device/:id', (req: Request, res: Response): void => {
-  res.json({ message: "Miley, what's good?" });
-  // Create an endpoint to retrieve the details of a specific device by its unique identifier.
+  // retrieve the details of a specific device by its unique identifier
+  const id = String(req.params.id);
+
+  if (!/^\d+$/.test(id)) {
+    res.status(400).json({ error: 'device id must be a number' });
+    return;
+  }
+
+  const db = getDb();
+  const device = db.devices.find((device) => device.id === id);
+
+  if (!device) {
+    res.status(404).json({ error: `device with id ${id} not found` });
+    return;
+  }
+
+  res.status(200).json(device);
 });
 
 app.patch('/device/:id', (req: Request, res: Response): void => {

@@ -1,6 +1,10 @@
 import request from 'supertest';
 import app from './app';
-import { getDb } from './db';
+import { getDb, resetDb } from './db';
+
+beforeEach(() => {
+  resetDb();
+});
 
 describe('test POST /register/device/:id', () => {
   test('Register device successfully', async () => {
@@ -146,14 +150,14 @@ describe('test GET /device/:id', () => {
   });
 
   test('Get device by ID that doesnt exist', async () => {
-    const res = await request(app).post('/register/device/4');
+    const res = await request(app).get('/device/4');
 
     expect(res.body).toEqual({ "error": "device with id 4 not found" });
     expect(res.status).toBe(404);
   });
 
   test('Get device by ID that is wrong', async () => {
-    const res = await request(app).post('/register/device/hello');
+    const res = await request(app).get('/device/hello');
 
     expect(res.body).toEqual({ "error": "device id must be a number" });
     expect(res.status).toBe(400);
