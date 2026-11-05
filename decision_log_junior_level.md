@@ -1,3 +1,4 @@
+# This is the decision log for the junior_level implementation
 1. Creating this decision log (seems valuable)
 
 2. I want a frontend that's quick and easy to set up, still uses react, and won't have a ton of boilerplate. I took a look at Vite's [docs](https://vite.dev/guide/), which lead me to their [community templates](https://github.com/vitejs/awesome-vite#templates), which lead me to [this](https://github.com/joaopaulomoraes/reactjs-vite-tailwindcss-boilerplate) which looks minimal and good to me.
