@@ -1,0 +1,1 @@
+// shared schema/zod between the frontend and backend will go here

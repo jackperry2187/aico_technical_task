@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm -r --parallel dev",
+    "start": "echo TODO",
+    "test": "pnpm -r test",
+    "clean": "pnpm -r --parallel exec rm -rf dist"
+  },
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=9"
+  }
+}

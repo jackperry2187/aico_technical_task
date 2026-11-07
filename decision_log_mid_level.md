@@ -8,3 +8,8 @@
   - 2.1 Decide to use a second `decision_log_mid_level` file, in addition to renaming the old one, to keep the two separate from each other
   - 2.2 Move the implementation I already did to a `junior_level` folder, and make a new `mid_level` folder where the next/better iteration will be stored
   - 2.3 Add the feedback directly to the repo, and break it down into the core/actionable takeaways that I'll be able to work on directly
+
+3. I've been looking into things I want to change structurally, and I think it honestly might be better to start from zero. I can still pull in or copy over code I think is useful, but `mid_level` is just going to be from scratch so that I don't have to deal with a handful of migrations on top of putting some old skills to new use.
+
+4. The first piece of feedback is about project structure. I've worked within pnpm workspace repos before, but never actually set one up, so I'm going to try my hand at doing that since it should clean up the frontend/backend files and make it easier to understand and run. [This](https://osmos-tech-blog.medium.com/pnpm-workspace-the-modern-solution-for-javascriptmonorepos-73630612b02b) and [this](https://dev.to/whetlan/pnpm-workspaces-in-production-what-actually-matters-16p7) article helped me get my bearings - a simple shape for the file structure, and what to put in the actual workspace files.
+  - 4.1 I've added what I think are the correct base files for the server and web apps, as well as a setup for a shared schema package. The only thing I changed about the template that the websites provided was changing node from 22 to 24, as I've been doing work recently to update Node versions within our repos and think it's probably easy and valuable to do here.
