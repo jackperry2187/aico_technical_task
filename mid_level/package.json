@@ -5,7 +5,8 @@
     "dev": "pnpm -r --parallel dev",
     "start": "echo TODO",
     "test": "pnpm -r test",
-    "clean": "pnpm -r --parallel exec rm -rf dist"
+    "clean": "pnpm -r --parallel exec rm -rf dist",
+    "install-all": "pnpm -r --parallel exec pnpm i"
   },
   "engines": {
     "node": ">=24",

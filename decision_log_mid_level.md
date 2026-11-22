@@ -15,3 +15,8 @@
   - 4.1 I've added what I think are the correct base files for the server and web apps, as well as a setup for a shared schema package. The only thing I changed about the template that the websites provided was changing node from 22 to 24, as I've been doing work recently to update Node versions within our repos and think it's probably easy and valuable to do here.
 
 5. Following the setup from the Junior level implementation, I implemented a very barebones express backend.
+
+6. I also copied a lot of the frontend implementation from the Junior level files, but I made sure to make a couple changes that feel important to standardize the two repos.
+  - 6.1 One thing was using pnpm's catalog feature to keep the version of typescript for both the frontend and backend the same
+  - 6.2 I also standardized the package.json's, that way they both have similar commands and follow the same wording for them
+  - 6.3 I also noticed the tsconfig files differed quite a bit, so I made them more normal by only keeping the things I definitely needed
